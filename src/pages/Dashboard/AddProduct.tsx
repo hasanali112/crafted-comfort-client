@@ -1,6 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import dash from "@/assets/dash.jpg";
-import avatar from "@/assets/avatar.png";
+import AddProductSide from "@/components/DashboardComponent/AddProductSide";
+import TopNav from "@/components/DashboardComponent/TopNav";
 
 type Inputs = {
   title: string;
@@ -32,32 +33,14 @@ const AddProduct = () => {
     reset();
   };
   return (
-    <div>
+    <div className="h-screen">
+      <TopNav />
       <div className="bg-gray-100">
         <div className="h-[200px]">
           <img src={dash} alt="" className="h-[150px] w-full object-cover" />
         </div>
         <div className="grid grid-cols-12 gap-4 ml-3 p-2 lg:ml-16 -translate-y-24">
-          <div className="bg-white h-[400px] w-full rounded-lg col-span-12 lg:col-span-3">
-            <div className="flex flex-col justify-center items-center">
-              <img src={avatar} alt="" className="w-[200px] -translate-y-9" />
-              <div className="-translate-y-[71px]">
-                <h1>JOHN STOCKDELL</h1>
-                <p>Deputy Director</p>
-              </div>
-            </div>
-            <div className="-translate-y-[55px] px-2 ">
-              <h1 className="p-3 bg-gray-50 mb-1 rounded-md shadow-sm border hover:-translate-y-2 duration-500">
-                Totol Buy: $0
-              </h1>
-              <h1 className="p-3 bg-gray-50 mb-1 rounded-md shadow-sm border hover:-translate-y-2 duration-500">
-                Totol Add: 0
-              </h1>
-              <h1 className="p-3 bg-gray-50 mb-1 rounded-md shadow-sm border hover:-translate-y-2 duration-500">
-                Totol Contribution: 0
-              </h1>
-            </div>
-          </div>
+          <AddProductSide />
           <div className="bg-white h-[400px] w-full rounded-lg col-span-12 lg:col-span-7">
             <div className="border-b h-[50px] "></div>
             <form onSubmit={handleSubmit(onSubmit)}>

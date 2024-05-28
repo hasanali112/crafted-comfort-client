@@ -1,8 +1,18 @@
 import { Button } from "@/components/ui/button";
+import { AuthContext } from "@/providers/AuthProviders";
 import { Heart, Menu, ShoppingCartIcon, User2Icon } from "lucide-react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+  const authContext = useContext(AuthContext);
+
+  if (!authContext) {
+    throw new Error("AuthContext must be used within an AuthProviders");
+  }
+
+  const { user } = authContext;
+
   return (
     <header className="bg-[#ffffff]">
       {/*nav-1 */}
@@ -22,7 +32,7 @@ const Navbar = () => {
           Crafted <span className="text-indigo-600">Comfort</span>
         </span>
         <ul className="flex items-center">
-          <div className="flex translate-x-[200px] space-x-16">
+          <div className="flex translate-x-[150px] space-x-4">
             <h1>All Categories</h1>
             <span>|</span>
           </div>
@@ -31,7 +41,7 @@ const Navbar = () => {
             name=""
             id=""
             placeholder="secrch for product"
-            className="border border-[#d0d2d3] w-[650px] h-[40px] rounded-md px-[250px] focus:outline-none"
+            className="border border-[#d0d2d3] w-[550px] h-[40px] rounded-md px-[170px] focus:outline-none"
           />
           <Button className="-translate-x-[78px] bg-indigo-600 rounded-r-md rounded-l-none">
             Search
@@ -42,7 +52,7 @@ const Navbar = () => {
             <span>
               <User2Icon />
             </span>
-            <Link to="/login"> login</Link>
+            {user ? user.displayName : <Link to="/login"> login</Link>}
           </li>
           <li>
             <Heart />
@@ -62,10 +72,17 @@ const Navbar = () => {
           Browse All Categories
         </h1>
         <ul className="flex gap-5">
-          <li>Home</li>
-          <li>Product</li>
+          <Link to="/">
+            <li>Home</li>
+          </Link>
+          <Link to="/products">
+            <li>Product</li>
+          </Link>
           <li>About</li>
           <li>Contact Us</li>
+          <Link to="/dashboard">
+            <li>Dashboard</li>
+          </Link>
         </ul>
         <h1>Sale 25% off your first order </h1>
       </nav>

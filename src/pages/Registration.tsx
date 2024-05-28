@@ -9,6 +9,8 @@ import { AuthContext } from "@/providers/AuthProviders";
 import { UserCredential } from "firebase/auth";
 
 type Inputs = {
+  name: string;
+  photo: string;
   userName: string;
   email: string;
   password: string;
@@ -23,31 +25,45 @@ const Registration = () => {
     throw new Error("AuthContext must be used within an AuthProviders");
   }
 
-  const { createUser } = authContext;
+  const { createUser, updateUserProfile } = authContext;
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const email = data.email;
     const password = data.password;
+    const userName = data.userName;
+    const photo = data.photo;
     createUser(email, password)
       .then((result: UserCredential) => {
         const user = result.user;
         console.log(user);
-        navigate("/login");
+        updateUserProfile(userName, photo)
+          .then()
+          .catch((error) => {
+            console.log(error);
+          });
+        fetch("http://localhost:5000/create-user", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
       })
       .catch((error: any) => {
         console.log(error);
       });
+    navigate("/login");
   };
 
   return (
-    <div className="h-screen">
+    <div className="h-[113vh]">
       <Container>
         <Link to="/" className="flex items-center gap-1 pt-6">
           <span className="text-3xl font-bold">
             Crafted <span className="text-indigo-600">Comfort</span>
           </span>
         </Link>
-        <div className="lg:w-[70%] mx-auto  h-[500px]  p-5">
+        <div className="lg:w-[60%] mx-auto  h-[500px]  p-5">
           <div className="flex flex-col lg:ml-40">
             <h1 className="text-left text-4xl font-bold">Registration Here</h1>
             <p className="text-xl mt-3 mb-5">
@@ -61,30 +77,57 @@ const Registration = () => {
             </div>
             <p className="lg:ml-32 mb-3 mt-4">or Registration with Email</p>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div>
-                <label htmlFor="username" className="block">
-                  User Name
+              <div className="w-[70%]">
+                <div className="grid grid-cols-12 gap-4">
+                  <div className="flex flex-col col-span-6">
+                    <label htmlFor="name">Name</label>
+                    <input
+                      type="text"
+                      placeholder="Name"
+                      {...register("name")}
+                      className="border w-full mb-3 h-12 rounded-lg pl-4 focus:outline-none"
+                    />
+                  </div>
+                  <div className="flex flex-col col-span-6">
+                    <label htmlFor="username">User Name</label>
+                    <input
+                      type="text"
+                      placeholder="User Name"
+                      {...register("userName", {
+                        required: true,
+                        maxLength: 8,
+                        pattern: /^[A-Za-z0-9]+$/i,
+                      })}
+                      className="border w-full mb-3 h-12 rounded-lg pl-4 focus:outline-none"
+                    />
+                  </div>
+                </div>
+                <label htmlFor="photo" className="block">
+                  Photo Url
                 </label>
                 <input
                   type="text"
-                  {...register("userName")}
-                  className="border w-[70%] mb-3 h-12 rounded-lg"
+                  placeholder="Photo Url"
+                  {...register("photo")}
+                  className="border w-full mb-3 h-12 rounded-lg pl-4 focus:outline-none"
                 />
                 <label htmlFor="Email" className="block">
                   Email
                 </label>
                 <input
                   type="email"
+                  placeholder="Email"
                   {...register("email")}
-                  className="border w-[70%] mb-3 h-12 rounded-lg"
+                  className="border w-full mb-3 h-12 rounded-lg pl-4 focus:outline-none"
                 />
                 <label htmlFor="password" className="block">
                   Password
                 </label>
                 <input
                   type="password"
+                  placeholder="Password"
                   {...register("password")}
-                  className="border w-[70%] mb-3 h-12 rounded-lg"
+                  className="border w-full mb-3 h-12 rounded-lg pl-4 focus:outline-none"
                 />
               </div>
               <button
