@@ -1,8 +1,44 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Container from "@/components/Container/Container";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import google from "@/assets/google.png";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useContext } from "react";
+import { AuthContext } from "@/providers/AuthProviders";
+import { UserCredential } from "firebase/auth";
+
+type Inputs = {
+  userName: string;
+  email: string;
+  password: string;
+};
 
 const Registration = () => {
+  const authContext = useContext(AuthContext);
+  const { register, handleSubmit } = useForm<Inputs>();
+  const navigate = useNavigate();
+
+  if (!authContext) {
+    throw new Error("AuthContext must be used within an AuthProviders");
+  }
+
+  const { createUser } = authContext;
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    const email = data.email;
+    const password = data.password;
+    createUser(email, password)
+      .then((result: UserCredential) => {
+        const user = result.user;
+        console.log(user);
+        navigate("/login");
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div className="h-screen">
       <Container>
@@ -24,32 +60,40 @@ const Registration = () => {
               </button>
             </div>
             <p className="lg:ml-32 mb-3 mt-4">or Registration with Email</p>
-            <div>
-              <label htmlFor="username" className="block">
-                User Name
-              </label>
-              <input
-                type="text"
-                className="border w-[70%] mb-3 h-12 rounded-lg"
-              />
-              <label htmlFor="Email" className="block">
-                Email
-              </label>
-              <input
-                type="text"
-                className="border w-[70%] mb-3 h-12 rounded-lg"
-              />
-              <label htmlFor="password" className="block">
-                Password
-              </label>
-              <input
-                type="text"
-                className="border w-[70%] mb-3 h-12 rounded-lg"
-              />
-            </div>
-            <button className="w-[70%] h-14 rounded-lg bg-violet-600 text-white mt-3 text-xl font-semibold flex justify-center items-center gap-2 shadow-sm hover:-translate-y-2 duration-500">
-              Sign Up
-            </button>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div>
+                <label htmlFor="username" className="block">
+                  User Name
+                </label>
+                <input
+                  type="text"
+                  {...register("userName")}
+                  className="border w-[70%] mb-3 h-12 rounded-lg"
+                />
+                <label htmlFor="Email" className="block">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  {...register("email")}
+                  className="border w-[70%] mb-3 h-12 rounded-lg"
+                />
+                <label htmlFor="password" className="block">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  {...register("password")}
+                  className="border w-[70%] mb-3 h-12 rounded-lg"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-[70%] h-14 rounded-lg bg-violet-600 text-white mt-3 text-xl font-semibold flex justify-center items-center gap-2 shadow-sm hover:-translate-y-2 duration-500"
+              >
+                Sign Up
+              </button>
+            </form>
             <p className="mt-3 mb-10">
               Already have an acount!{" "}
               <Link to="/login" className="text-violet-500">
