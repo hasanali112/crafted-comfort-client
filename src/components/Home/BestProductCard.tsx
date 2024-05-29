@@ -1,5 +1,5 @@
 import { Star } from "lucide-react";
-import chair from "@/assets/chair.png";
+import chair from "@/assets/chair.webp";
 
 const BestProductCard = () => {
   return (

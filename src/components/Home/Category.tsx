@@ -1,7 +1,7 @@
 import Container from "../Container/Container";
-import sofa from "@/assets/sofa1.png";
-import book from "@/assets/book.png";
-import table from "@/assets/table.png";
+import sofa from "@/assets/sofa1.webp";
+import book from "@/assets/book.webp";
+import table from "@/assets/table.webp";
 
 const Category = () => {
   return (

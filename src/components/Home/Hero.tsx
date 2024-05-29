@@ -1,6 +1,6 @@
-import banner from "@/assets/banner.png";
-import banner1 from "@/assets/banner3.png";
-import banner2 from "@/assets/banner4.png";
+import banner from "@/assets/banner.webp";
+import banner1 from "@/assets/banner3.webp";
+import banner2 from "@/assets/banner4.webp";
 import Container from "../Container/Container";
 
 const Hero = () => {
