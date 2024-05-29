@@ -41,7 +41,7 @@ const Registration = () => {
           .catch((error) => {
             console.log(error);
           });
-        fetch("http://localhost:5000/create-user", {
+        fetch("https://funiture-server.vercel.app/create-user", {
           method: "POST",
           headers: {
             "content-type": "application/json",

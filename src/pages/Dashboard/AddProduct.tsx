@@ -2,6 +2,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import dash from "@/assets/dash.jpg";
 import AddProductSide from "@/components/DashboardComponent/AddProductSide";
 import TopNav from "@/components/DashboardComponent/TopNav";
+import Swal from "sweetalert2";
 
 type Inputs = {
   title: string;
@@ -23,13 +24,22 @@ const AddProduct = () => {
       price: data.price,
       decription: data.description,
     };
-    fetch("https://crafted-comfort-server.vercel.app/create-product", {
+    fetch("https://funiture-server.vercel.app/create-product", {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
       body: JSON.stringify(productData),
-    });
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        Swal.fire({
+          title: "Add!",
+          text: "Your product add successfully!",
+          icon: "success",
+        });
+      });
     reset();
   };
   return (

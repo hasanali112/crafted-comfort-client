@@ -21,7 +21,7 @@ const AddProductSide = () => {
   const [userGet, setUserGet] = useState<Tdata | null>(null);
 
   useEffect(() => {
-    fetch(`https://crafted-comfort-server.vercel.app/user/${user?.email}`)
+    fetch(`https://funiture-server.vercel.app/user/${user?.email}`)
       .then((res) => res.json())
       .then((data) => setUserGet(data));
   }, []);

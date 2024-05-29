@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { AuthContext } from "@/providers/AuthProviders";
 import { useContext, useEffect, useState } from "react";
 
@@ -20,7 +19,7 @@ const TopNav = () => {
   const [userGet, setUserGet] = useState<Tdata | null>(null);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/user/${user?.email}`)
+    fetch(`https://funiture-server.vercel.app/user/${user?.email}`)
       .then((res) => res.json())
       .then((data) => setUserGet(data));
   }, []);

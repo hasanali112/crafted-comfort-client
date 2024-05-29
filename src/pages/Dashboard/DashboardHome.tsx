@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react-hooks/exhaustive-deps */
 import TopNav from "@/components/DashboardComponent/TopNav";
 import dash from "@/assets/dash.jpg";
 import { useContext, useEffect, useState } from "react";
@@ -23,7 +22,7 @@ const DashboardHome = () => {
   const [userGet, setUserGet] = useState<Tdata | null>(null);
 
   useEffect(() => {
-    fetch(`https://crafted-comfort-server.vercel.app/user/${user?.email}`)
+    fetch(`https://funiture-server.vercel.app/user/${user?.email}`)
       .then((res) => res.json())
       .then((data) => setUserGet(data));
   }, []);
